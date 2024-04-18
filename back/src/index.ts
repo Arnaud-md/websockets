@@ -41,6 +41,18 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
+
+
+  socket.on('patate', () => {
+    console.log('others - message: ');
+    socket.broadcast.emit('chouchou');
+  })
+
+  socket.on('bim', () => {
+    console.log('every body message: ');
+    io.emit('boom');
+  });
+
 });
 
 app.get("/", (req, res) => {

@@ -7,12 +7,25 @@ function App() {
   const [newMessage, updateNewMessage] = useState<string>('')
 
   useEffect(() => {
+    socket.off('boom')
+    socket.off('chouchou')
+    socket.off('chat message')
     socket.on('chat message', (msg: string) => {
       console.log('new message received', msg)
       updateMessageList([...messageList, msg])
     })
+    socket.on('chouchou', () => {
+      console.log('new message received')
+      updateMessageList([...messageList, 'chouchou'])
+    })
+    socket.on('boom', () => {
+      console.log('new message received')
+      updateMessageList([...messageList, 'boom'])
+    })
 
     return () => {
+      socket.off('boom')
+      socket.off('chouchou')
       socket.off('chat message')
     }
   })
@@ -58,6 +71,24 @@ function App() {
           }}
         >
           Send to last socket
+        </button>
+        <button
+          onClick={(e) => {
+            e.preventDefault()
+            socket.emit('patate')
+            updateNewMessage('')
+          }}
+        >
+          Patate
+        </button>
+        <button
+          onClick={(e) => {
+            e.preventDefault()
+            socket.emit('bim')
+            updateNewMessage('')
+          }}
+        >
+          Bim
         </button>
       </form>
 
